@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package delayDiscounting;
 
@@ -9,13 +9,13 @@ import java.io.Writer;
 
 /**
  * @author Ringo
- * 
+ *
  */
 public class Utilities
 {
 	public static void close(final Reader p_reader)
 	{
-		if(p_reader == null)
+		if (p_reader == null)
 		{
 			return;
 		}
@@ -24,7 +24,7 @@ public class Utilities
 		{
 			p_reader.close();
 		}
-		catch(final IOException ex)
+		catch (final IOException ex)
 		{
 			ex.printStackTrace();
 		}
@@ -32,7 +32,7 @@ public class Utilities
 
 	public static void close(final Writer p_writer)
 	{
-		if(p_writer == null)
+		if (p_writer == null)
 		{
 			return;
 		}
@@ -41,7 +41,7 @@ public class Utilities
 		{
 			p_writer.close();
 		}
-		catch(final IOException ex)
+		catch (final IOException ex)
 		{
 			ex.printStackTrace();
 		}
@@ -53,7 +53,7 @@ public class Utilities
 		{
 			return Double.parseDouble(p_string);
 		}
-		catch(final Exception p_ex)
+		catch (final Exception p_ex)
 		{
 			return Double.NaN;
 		}
@@ -65,7 +65,7 @@ public class Utilities
 		{
 			return Integer.parseInt(p_string);
 		}
-		catch(final Exception p_ex)
+		catch (final Exception p_ex)
 		{
 			return -1;
 		}

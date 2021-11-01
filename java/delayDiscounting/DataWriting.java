@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package delayDiscounting;
 
@@ -29,61 +29,29 @@ public class DataWriting
 	private static final String	RESP_OUT_FILE			= "DDResponses.csv";
 	private static final String	RESP_OUT_FILE_DELIMITER	= ",";
 
-	private static Set<String>	writtenVectorFiles		= new HashSet<String>();
+	private static Set<String> WRITTEN_VECTOR_FILES = new HashSet<>();
 
-	/**
-	 * @param p_response
-	 * @param p_year
-	 * @param p_subject
-	 * @return
-	 */
-	private static String buildOutputString(final ResponseData p_response)
-	{
-		String ret = "";
-
-		boolean firstItem = true;
-		for(final ResponseOutputDataType type: ResponseOutputDataType.values())
-		{
-			final String data = p_response.getData(type);
-			if(!firstItem)
-			{
-				ret += RESP_OUT_FILE_DELIMITER;
-			}
-
-			ret += data;
-
-			firstItem = false;
-		}
-
-		return ret;
-	}
-
-	public static void writeAllVector(final int[] p_vector,
-		final SubjectData p_subjectData)
+	public static void writeAllVector(final int[] p_vector, final SubjectData p_subjectData)
 	{
 		writeVector(p_vector, p_subjectData, VECTOR_ALL_LABEL);
 	}
 
-	public static void writeEasyVector(final int[] p_easyVector,
-		final SubjectData p_subjectData)
+	public static void writeEasyVector(final int[] p_easyVector, final SubjectData p_subjectData)
 	{
 		writeVector(p_easyVector, p_subjectData, VECTOR_EASY_LABEL);
 	}
 
-	public static void writeHardVector(final int[] p_hardVector,
-		final SubjectData p_subjectData)
+	public static void writeHardVector(final int[] p_hardVector, final SubjectData p_subjectData)
 	{
 		writeVector(p_hardVector, p_subjectData, VECTOR_HARD_LABEL);
 	}
 
-	public static void writeInvalidVector(final int[] p_omittedVector,
-		final SubjectData p_subjectData)
+	public static void writeInvalidVector(final int[] p_omittedVector, final SubjectData p_subjectData)
 	{
 		writeVector(p_omittedVector, p_subjectData, VECTOR_INVALID_LABEL);
 	}
 
-	public static void writeMidVector(final int[] p_midVector,
-		final SubjectData p_subjectData)
+	public static void writeMidVector(final int[] p_midVector, final SubjectData p_subjectData)
 	{
 		writeVector(p_midVector, p_subjectData, VECTOR_MID_LABEL);
 	}
@@ -92,27 +60,24 @@ public class DataWriting
 	{
 		p_outputFile.prepareToWrite();
 
-		if(Settings.runKAnalysis())
+		if (Settings.runKAnalysis())
 		{
 			Toolkit.getDefaultToolkit().beep();
 		}
 
 		BufferedWriter writer = null;
-		final String outputFileName = "output_"
-			+ System.currentTimeMillis() + ".csv";
+		final String outputFileName = "output_" + System.currentTimeMillis() + ".csv";
 		try
 		{
 			writer = new BufferedWriter(new FileWriter(outputFileName));
 			p_outputFile.writeOutput(writer);
 
 			final String absoluteFilePath = new File(outputFileName).getAbsolutePath();
-			System.out.println("Successfully wrote analysis file: "
-				+ absoluteFilePath);
+			System.out.println("Successfully wrote analysis file: " + absoluteFilePath);
 		}
-		catch(final IOException ioex)
+		catch (final IOException ioex)
 		{
-			JOptionPane.showMessageDialog(null, "Unable to write to "
-				+ outputFileName);
+			JOptionPane.showMessageDialog(null, "Unable to write to " + outputFileName);
 		}
 		finally
 		{
@@ -131,15 +96,14 @@ public class DataWriting
 			final String header = buildOutputString(new ResponseOutputHeaderRow());
 			writer.write(header + "\r\n");
 
-			for(final SubjectData subject: p_subjects)
+			for (final SubjectData subject : p_subjects)
 			{
-				for(int year = 1; year <= 2; year++)
+				for (int year = 1; year <= 2; year++)
 				{
-					final ArrayList<ResponseData> validResponses = subject.getYearData(
-						year).getResponses(
-						AnalysisType.ALL_ALL, true);
+					final ArrayList<ResponseData> validResponses =
+						subject.getYearData(year).getResponses(AnalysisType.ALL_ALL, true);
 
-					for(final ResponseData response: validResponses)
+					for (final ResponseData response : validResponses)
 					{
 						final String output = buildOutputString(response);
 						writer.write(output + "\r\n");
@@ -147,7 +111,7 @@ public class DataWriting
 				}
 			}
 		}
-		catch(final IOException ioex)
+		catch (final IOException ioex)
 		{
 			ioex.printStackTrace();
 		}
@@ -157,31 +121,56 @@ public class DataWriting
 		}
 	}
 
-	private static void writeVector(final int[] p_vector,
-		final SubjectData p_subjectData, final String p_vectorLabel)
+	/**
+	 * @param  p_response
+	 * @param  p_year
+	 * @param  p_subject
+	 *
+	 * @return
+	 */
+	private static String buildOutputString(final ResponseData p_response)
+	{
+		String ret = "";
+
+		boolean firstItem = true;
+		for (final ResponseOutputDataType type : ResponseOutputDataType.values())
+		{
+			final String data = p_response.getData(type);
+			if (!firstItem)
+			{
+				ret += RESP_OUT_FILE_DELIMITER;
+			}
+
+			ret += data;
+
+			firstItem = false;
+		}
+
+		return ret;
+	}
+
+	private static void writeVector(final int[] p_vector, final SubjectData p_subjectData, final String p_vectorLabel)
 	{
 		final File vectorDir = new File(VECTOR_DIR);
-		if(!vectorDir.exists())
+		if (!vectorDir.exists())
 		{
 			vectorDir.mkdir();
 		}
-		final String vectorFileName = p_subjectData.getSubjectID() + "_"
-			+ p_vectorLabel + ".txt";
+		final String vectorFileName = p_subjectData.getSubjectID() + "_" + p_vectorLabel + ".txt";
 		final File vectorFile = new File(vectorDir, vectorFileName);
 
-		if(writtenVectorFiles.contains(vectorFile))
+		if (WRITTEN_VECTOR_FILES.contains(vectorFileName))
 		{
-			throw new RuntimeException("Collision on ID "
-				+ p_subjectData.getSubjectID());
+			throw new RuntimeException("Collision on ID " + p_subjectData.getSubjectID());
 		}
 
 		System.out.println("Writing " + vectorFileName);
-		writtenVectorFiles.add(vectorFileName);
+		WRITTEN_VECTOR_FILES.add(vectorFileName);
 
 		String toWrite = "";
-		for(final int timeIndex: p_vector)
+		for (final int timeIndex : p_vector)
 		{
-			toWrite += (timeIndex + " ");
+			toWrite += timeIndex + " ";
 		}
 
 		BufferedWriter writer = null;
@@ -190,7 +179,7 @@ public class DataWriting
 			writer = new BufferedWriter(new FileWriter(vectorFile));
 			writer.write(toWrite);
 		}
-		catch(final IOException ex)
+		catch (final IOException ex)
 		{
 			ex.printStackTrace();
 		}

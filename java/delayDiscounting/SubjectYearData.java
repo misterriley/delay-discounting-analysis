@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package delayDiscounting;
 
@@ -8,17 +8,17 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+import bootstrap.BootstrapManager;
+import bootstrap.BootstrapResult;
 import types.AnalysisType;
 import types.EasyHardDataType;
 import types.KAnalysisValueType;
 import types.ResponseType;
 import types.SubjectInfoType;
-import bootstrap.BootstrapManager;
-import bootstrap.BootstrapResult;
 
 /**
  * @author Ringo
- * 
+ *
  */
 public class SubjectYearData
 {
@@ -27,7 +27,7 @@ public class SubjectYearData
 		final ResponseData p_response)
 	{
 		p_map.get(AnalysisType.ALL_ALL).add(p_response);
-		if(p_response.isDelayedTrial())
+		if (p_response.isDelayedTrial())
 		{
 			p_map.get(AnalysisType.ALL_DELAYED).add(p_response);
 		}
@@ -36,10 +36,10 @@ public class SubjectYearData
 			p_map.get(AnalysisType.ALL_IMMEDIATE).add(p_response);
 		}
 
-		if(p_response.isMessyTrial())
+		if (p_response.isMessyTrial())
 		{
 			p_map.get(AnalysisType.MESSY_ALL).add(p_response);
-			if(p_response.isDelayedTrial())
+			if (p_response.isDelayedTrial())
 			{
 				p_map.get(AnalysisType.MESSY_DELAYED).add(p_response);
 			}
@@ -51,7 +51,7 @@ public class SubjectYearData
 		else
 		{
 			p_map.get(AnalysisType.ROUND_ALL).add(p_response);
-			if(p_response.isDelayedTrial())
+			if (p_response.isDelayedTrial())
 			{
 				p_map.get(AnalysisType.ROUND_DELAYED).add(p_response);
 			}
@@ -67,7 +67,7 @@ public class SubjectYearData
 		final double[] ret = new double[2];
 
 		double sum = 0;
-		for(final ResponseData response: p_responses)
+		for (final ResponseData response : p_responses)
 		{
 			sum += response.getRT();
 		}
@@ -76,9 +76,9 @@ public class SubjectYearData
 		ret[0] = mean;
 
 		double sumDev = 0;
-		for(final ResponseData response: p_responses)
+		for (final ResponseData response : p_responses)
 		{
-			final double thisDev = Math.pow((response.getRT() - mean), 2);
+			final double thisDev = Math.pow(response.getRT() - mean, 2);
 			sumDev += thisDev;
 		}
 
@@ -101,48 +101,63 @@ public class SubjectYearData
 	private final int											m_year;
 	private final ResponseSetAnalyzer							m_analyzer;
 
-	private final BootstrapManager<ResponseData>				m_bootstrapManager;
-	private final Map<AnalysisType, BootstrapResult>			m_bootstrapResults;
+	private final BootstrapManager<ResponseData>		m_bootstrapManager;
+	private final Map<AnalysisType, BootstrapResult>	m_bootstrapResults;
 
-	private double												m_age;
+	private double m_age;
 
-	private ResponseData[]										m_easyResponses;
-	private ResponseData[]										m_hardResponses;
-	private ResponseData[]										m_midResponses;
+	private ResponseData[]	m_easyResponses;
+	private ResponseData[]	m_hardResponses;
+	private ResponseData[]	m_midResponses;
 
-	public SubjectYearData(final SubjectData p_subject,
-		final int p_year)
+	public SubjectYearData(final SubjectData p_subject, final int p_year)
 	{
-		m_allResponses = new HashMap<AnalysisType, ArrayList<ResponseData>>();
-		m_validResponses = new HashMap<AnalysisType, ArrayList<ResponseData>>();
-		m_invalidResponses = new ArrayList<ResponseData>();
-		for(final AnalysisType type: AnalysisType.values())
+		m_allResponses = new HashMap<>();
+		m_validResponses = new HashMap<>();
+		m_invalidResponses = new ArrayList<>();
+		for (final AnalysisType type : AnalysisType.values())
 		{
 			m_allResponses.put(type, new ArrayList<ResponseData>());
 			m_validResponses.put(type, new ArrayList<ResponseData>());
 		}
-		m_bootstrapResults = new HashMap<AnalysisType, BootstrapResult>();
+		m_bootstrapResults = new HashMap<>();
 
 		m_analyzer = new ResponseSetAnalyzer();
-		m_bootstrapManager = new BootstrapManager<ResponseData>();
+		m_bootstrapManager = new BootstrapManager<>();
 		m_subject = p_subject;
 		m_year = p_year;
 	}
 
-	public void addResponse(final double p_choice1, final int p_choice1Delay,
-		final double p_choice2, final int p_choice2Delay,
-		final ResponseType p_responseType, final boolean p_isAttentionCheck,
-		final boolean p_isMessyTrial, final int p_timeIndex, final double p_k,
-		final boolean p_isValid, final double p_rt)
+	public void addResponse(
+		final double p_choice1,
+		final int p_choice1Delay,
+		final double p_choice2,
+		final int p_choice2Delay,
+		final ResponseType p_responseType,
+		final boolean p_isAttentionCheck,
+		final boolean p_isMessyTrial,
+		final int p_timeIndex,
+		final double p_k,
+		final boolean p_isValid,
+		final double p_rt)
 	{
-		final ResponseData response = new ResponseData(this, p_choice1,
-			p_choice1Delay, p_choice2, p_choice2Delay, p_responseType,
-			p_isAttentionCheck, p_isMessyTrial, p_timeIndex, p_k, p_isValid,
+		final ResponseData response = new ResponseData(
+			this,
+			p_choice1,
+			p_choice1Delay,
+			p_choice2,
+			p_choice2Delay,
+			p_responseType,
+			p_isAttentionCheck,
+			p_isMessyTrial,
+			p_timeIndex,
+			p_k,
+			p_isValid,
 			p_rt);
 
 		addResponseToMap(m_allResponses, response);
 
-		if(p_isValid)
+		if (p_isValid)
 		{
 			addResponseToMap(m_validResponses, response);
 		}
@@ -152,135 +167,43 @@ public class SubjectYearData
 		}
 	}
 
-	private boolean analysisIsValidForSubject(final AnalysisType p_type)
-	{
-		if(m_isTypeA)
-		{
-			return true;
-		}
-
-		if(p_type == AnalysisType.ALL_DELAYED
-			|| p_type == AnalysisType.ROUND_DELAYED
-			|| p_type == AnalysisType.MESSY_DELAYED
-			|| p_type == AnalysisType.ALL_IMMEDIATE
-			|| p_type == AnalysisType.ROUND_IMMEDIATE
-			|| p_type == AnalysisType.MESSY_IMMEDIATE)
-		{
-			return false;
-		}
-
-		return true;
-	}
-
-	private void calculateEasyHardResponses()
-	{
-		if(m_easyResponses == null || m_hardResponses == null
-			|| m_midResponses == null)
-		{
-			final ArrayList<ResponseData> responses = getAllValidResponses();
-			final ResponseData[] responseArray = new ResponseData[responses.size()];
-			responses.toArray(responseArray);
-
-			final DifficultyComparator comp = new DifficultyComparator(
-				getKValue(AnalysisType.ALL_ALL),
-				getSensitivity(AnalysisType.ALL_ALL));
-			Arrays.sort(responseArray, comp);
-
-			final int numMidResponses = responses.size() - 2
-				* Settings.getNumEasyHardResponses();
-
-			m_easyResponses = new ResponseData[Settings.getNumEasyHardResponses()];
-			m_hardResponses = new ResponseData[Settings.getNumEasyHardResponses()];
-			m_midResponses = new ResponseData[numMidResponses];
-
-			for(int i = 0; i < Settings.getNumEasyHardResponses(); i++)
-			{
-				m_hardResponses[i] = responseArray[i];
-				m_easyResponses[i] = responseArray[responseArray.length - 1 - i];
-			}
-
-			for(int i = 0; i < numMidResponses; i++)
-			{
-				m_midResponses[i] = responseArray[i
-					+ Settings.getNumEasyHardResponses()];
-			}
-		}
-	}
-
-	/**
-	 * @param p_responses
-	 * @return
-	 */
-	private double calculateMaxBreakEvenK(
-		final ArrayList<ResponseData> p_responses)
-	{
-		double max = 0;
-		for(final ResponseData response: p_responses)
-		{
-			final double breakEvenK = Functions.calculateBreakEvenKValue(response);
-			if(breakEvenK > max)
-			{
-				max = breakEvenK;
-			}
-		}
-		return max;
-	}
-
-	private double calculateMinBreakEvenK(
-		final ArrayList<ResponseData> p_responses)
-	{
-		double min = Double.POSITIVE_INFINITY;
-		for(final ResponseData response: p_responses)
-		{
-			final double breakEvenK = Functions.calculateBreakEvenKValue(response);
-			if(breakEvenK < min)
-			{
-				min = breakEvenK;
-			}
-		}
-		return min;
-	}
-
 	public void ensureKValuesArePresent(final AnalysisType p_analysisType)
 	{
-		if(kResultShouldExist(p_analysisType)
-			&& getBootstrapResult(p_analysisType, false) == null)
+		if (kResultShouldExist(p_analysisType) && getBootstrapResult(p_analysisType, false) == null)
 		{
-			final double maxK = calculateMaxBreakEvenK(getResponses(
-				p_analysisType,
-				true));
+			final double maxK = calculateMaxBreakEvenK(getResponses(p_analysisType, true));
 			m_analyzer.setMaxKValue(maxK);
-			final double minK = calculateMinBreakEvenK(getResponses(
-				p_analysisType,
-				true));
+			final double minK = calculateMinBreakEvenK(getResponses(p_analysisType, true));
 			m_analyzer.setMinKValue(minK);
 
-			System.out.println("Analyzing " + m_subject.getSubjectID() + " "
-				+ p_analysisType
-				+ " year " + m_year);
-			final BootstrapResult result = m_bootstrapManager.runBootstrap(
-				m_analyzer, getResponses(p_analysisType, true));
+			System.out.println("Analyzing " + m_subject.getSubjectID() + " " + p_analysisType + " year " + m_year);
+			final BootstrapResult result =
+				m_bootstrapManager.runBootstrap(m_analyzer, getResponses(p_analysisType, true));
 
 			m_bootstrapResults.put(p_analysisType, result);
 
-			if(result.getMean(ResponseSetAnalyzer.SENSITIVITY) == 1)
+			if (result.getMean(ResponseSetAnalyzer.SENSITIVITY) == 1)
 			{
 				System.out.println("Separable");
-				System.out.println("k = "
-					+ result.getMean(ResponseSetAnalyzer.K) +
-					"\nk(se) = "
-					+ result.getStandardError(ResponseSetAnalyzer.K));
+				System.out
+					.println(
+						"k = "
+							+ result.getMean(ResponseSetAnalyzer.K)
+							+ "\nk(se) = "
+							+ result.getStandardError(ResponseSetAnalyzer.K));
 			}
 			else
 			{
-				System.out.println("k = "
-					+ result.getMean(ResponseSetAnalyzer.K) +
-					"\nk(se) = "
-					+ result.getStandardError(ResponseSetAnalyzer.K) +
-					"\nsens = "
-					+ result.getMean(ResponseSetAnalyzer.SENSITIVITY) +
-					"\nsens(se) = "
-					+ result.getStandardError(ResponseSetAnalyzer.K));
+				System.out
+					.println(
+						"k = "
+							+ result.getMean(ResponseSetAnalyzer.K)
+							+ "\nk(se) = "
+							+ result.getStandardError(ResponseSetAnalyzer.K)
+							+ "\nsens = "
+							+ result.getMean(ResponseSetAnalyzer.SENSITIVITY)
+							+ "\nsens(se) = "
+							+ result.getStandardError(ResponseSetAnalyzer.K));
 			}
 		}
 	}
@@ -295,10 +218,9 @@ public class SubjectYearData
 		return m_validResponses.get(AnalysisType.ALL_ALL);
 	}
 
-	public BootstrapResult getBootstrapResult(final AnalysisType p_type,
-		final boolean p_ensureResultsExist)
+	public BootstrapResult getBootstrapResult(final AnalysisType p_type, final boolean p_ensureResultsExist)
 	{
-		if(p_ensureResultsExist)
+		if (p_ensureResultsExist)
 		{
 			ensureKValuesArePresent(p_type);
 		}
@@ -328,16 +250,15 @@ public class SubjectYearData
 		return m_invalidResponses.toArray(new ResponseData[0]);
 	}
 
-	public Object getKOutput(final AnalysisType p_analysisType,
-		final KAnalysisValueType p_analysisValueType)
+	public Object getKOutput(final AnalysisType p_analysisType, final KAnalysisValueType p_analysisValueType)
 	{
 		final BootstrapResult result = getBootstrapResult(p_analysisType, true);
-		if(result == null)
+		if (result == null)
 		{
 			return null;
 		}
 
-		switch(p_analysisValueType)
+		switch (p_analysisValueType)
 		{
 			case K:
 				return result.getMean(ResponseSetAnalyzer.K);
@@ -348,19 +269,19 @@ public class SubjectYearData
 			case S_SE:
 				return result.getStandardError(ResponseSetAnalyzer.SENSITIVITY);
 			default:
-				throw new IllegalArgumentException("Unexpected type: "
-					+ p_analysisValueType);
+				throw new IllegalArgumentException("Unexpected type: " + p_analysisValueType);
 		}
 	}
 
 	/**
-	 * @param p_all
+	 * @param  p_all
+	 *
 	 * @return
 	 */
 	public Double getKValue(final AnalysisType p_type)
 	{
 		final BootstrapResult result = getBootstrapResult(p_type, true);
-		if(result == null)
+		if (result == null)
 		{
 			return null;
 		}
@@ -370,24 +291,23 @@ public class SubjectYearData
 
 	public Double getLLP(final AnalysisType p_type)
 	{
-		if(!analysisIsValidForSubject(p_type))
+		if (!analysisIsValidForSubject(p_type))
 		{
 			return null;
 		}
 
 		int llResponses = 0;
 
-		final ArrayList<ResponseData> validResponses = getResponses(p_type,
-			true);
-		for(final ResponseData response: validResponses)
+		final ArrayList<ResponseData> validResponses = getResponses(p_type, true);
+		for (final ResponseData response : validResponses)
 		{
-			if(response.getResponseType() == ResponseType.LATER)
+			if (response.getResponseType() == ResponseType.LATER)
 			{
 				llResponses++;
 			}
 		}
 
-		return new Double(((double)llResponses * 100) / validResponses.size());
+		return new Double((double) llResponses * 100 / validResponses.size());
 	}
 
 	public ResponseData[] getMidResponses()
@@ -403,7 +323,7 @@ public class SubjectYearData
 
 	public Double getOutput(final EasyHardDataType p_type)
 	{
-		switch(p_type)
+		switch (p_type)
 		{
 			case EASY_RT_MEAN:
 				return getMeanSDRT(getEasyResponses())[0];
@@ -420,7 +340,7 @@ public class SubjectYearData
 
 	public Object getOutput(final SubjectInfoType p_type)
 	{
-		switch(p_type)
+		switch (p_type)
 		{
 			case AGE:
 				return Double.toString(m_age);
@@ -444,14 +364,12 @@ public class SubjectYearData
 				return getTimeString();
 		}
 
-		throw new RuntimeException("Invalid Data Type: "
-			+ p_type);
+		throw new RuntimeException("Invalid Data Type: " + p_type);
 	}
 
-	public ArrayList<ResponseData> getResponses(final AnalysisType p_type,
-		final boolean p_onlyValidResponses)
+	public ArrayList<ResponseData> getResponses(final AnalysisType p_type, final boolean p_onlyValidResponses)
 	{
-		if(p_onlyValidResponses)
+		if (p_onlyValidResponses)
 		{
 			return m_validResponses.get(p_type);
 		}
@@ -462,7 +380,7 @@ public class SubjectYearData
 	public Double getSensitivity(final AnalysisType p_type)
 	{
 		final BootstrapResult result = getBootstrapResult(p_type, true);
-		if(result == null)
+		if (result == null)
 		{
 			return null;
 		}
@@ -487,8 +405,7 @@ public class SubjectYearData
 
 	public String getUniqueTag(final AnalysisType p_type)
 	{
-		return m_subject.getSubjectID() + " year " + m_year + " ("
-			+ p_type.toString() + ")";
+		return m_subject.getSubjectID() + " year " + m_year + " (" + p_type.toString() + ")";
 	}
 
 	public int getYear()
@@ -502,17 +419,18 @@ public class SubjectYearData
 	}
 
 	/**
-	 * @param p_type
+	 * @param  p_type
+	 *
 	 * @return
 	 */
 	public boolean kResultShouldExist(final AnalysisType p_analysisType)
 	{
-		if(!Settings.runKAnalysis())
+		if (!Settings.runKAnalysis())
 		{
 			return false;
 		}
 
-		if(!analysisIsValidForSubject(p_analysisType))
+		if (!analysisIsValidForSubject(p_analysisType))
 		{
 			return false;
 		}
@@ -540,7 +458,7 @@ public class SubjectYearData
 
 	public void setSourceFile(final String p_sourceFile)
 	{
-		if(m_sourceFile != null && !m_sourceFile.equals(p_sourceFile))
+		if (m_sourceFile != null && !m_sourceFile.equals(p_sourceFile))
 		{
 			System.out.println(m_subject.getSubjectID());
 		}
@@ -556,5 +474,89 @@ public class SubjectYearData
 	public void setTypeA(final boolean isTypeA)
 	{
 		m_isTypeA = isTypeA;
+	}
+
+	private boolean analysisIsValidForSubject(final AnalysisType p_type)
+	{
+		if (m_isTypeA)
+		{
+			return true;
+		}
+
+		if (p_type == AnalysisType.ALL_DELAYED
+			|| p_type == AnalysisType.ROUND_DELAYED
+			|| p_type == AnalysisType.MESSY_DELAYED
+			|| p_type == AnalysisType.ALL_IMMEDIATE
+			|| p_type == AnalysisType.ROUND_IMMEDIATE
+			|| p_type == AnalysisType.MESSY_IMMEDIATE)
+		{
+			return false;
+		}
+
+		return true;
+	}
+
+	private void calculateEasyHardResponses()
+	{
+		if (m_easyResponses == null || m_hardResponses == null || m_midResponses == null)
+		{
+			final ArrayList<ResponseData> responses = getAllValidResponses();
+			final ResponseData[] responseArray = new ResponseData[responses.size()];
+			responses.toArray(responseArray);
+
+			final DifficultyComparator comp =
+				new DifficultyComparator(getKValue(AnalysisType.ALL_ALL), getSensitivity(AnalysisType.ALL_ALL));
+			Arrays.sort(responseArray, comp);
+
+			final int numMidResponses = responses.size() - 2 * Settings.getNumEasyHardResponses();
+
+			m_easyResponses = new ResponseData[Settings.getNumEasyHardResponses()];
+			m_hardResponses = new ResponseData[Settings.getNumEasyHardResponses()];
+			m_midResponses = new ResponseData[numMidResponses];
+
+			for (int i = 0; i < Settings.getNumEasyHardResponses(); i++)
+			{
+				m_hardResponses[i] = responseArray[i];
+				m_easyResponses[i] = responseArray[responseArray.length - 1 - i];
+			}
+
+			for (int i = 0; i < numMidResponses; i++)
+			{
+				m_midResponses[i] = responseArray[i + Settings.getNumEasyHardResponses()];
+			}
+		}
+	}
+
+	/**
+	 * @param  p_responses
+	 *
+	 * @return
+	 */
+	private double calculateMaxBreakEvenK(final ArrayList<ResponseData> p_responses)
+	{
+		double max = 0;
+		for (final ResponseData response : p_responses)
+		{
+			final double breakEvenK = Functions.calculateBreakEvenKValue(response);
+			if (breakEvenK > max)
+			{
+				max = breakEvenK;
+			}
+		}
+		return max;
+	}
+
+	private double calculateMinBreakEvenK(final ArrayList<ResponseData> p_responses)
+	{
+		double min = Double.POSITIVE_INFINITY;
+		for (final ResponseData response : p_responses)
+		{
+			final double breakEvenK = Functions.calculateBreakEvenKValue(response);
+			if (breakEvenK < min)
+			{
+				min = breakEvenK;
+			}
+		}
+		return min;
 	}
 }

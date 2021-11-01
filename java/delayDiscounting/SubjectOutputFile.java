@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package delayDiscounting;
 
@@ -9,15 +9,15 @@ import java.util.ArrayList;
 
 /**
  * @author Ringo
- * 
+ *
  */
 public class SubjectOutputFile
 {
-	private final ArrayList<SubjectOutputRow>	m_rows;
+	private final ArrayList<SubjectOutputRow> m_rows;
 
 	public SubjectOutputFile()
 	{
-		m_rows = new ArrayList<SubjectOutputRow>();
+		m_rows = new ArrayList<>();
 		m_rows.add(new SubjectOutputHeaderRow());
 	}
 
@@ -28,16 +28,15 @@ public class SubjectOutputFile
 
 	public void prepareToWrite()
 	{
-		for(final SubjectOutputRow row: m_rows)
+		for (final SubjectOutputRow row : m_rows)
 		{
 			row.toString();
 		}
 	}
 
-	public void writeOutput(final BufferedWriter p_writer)
-		throws IOException
+	public void writeOutput(final BufferedWriter p_writer) throws IOException
 	{
-		for(final SubjectOutputRow row: m_rows)
+		for (final SubjectOutputRow row : m_rows)
 		{
 			final String toWrite = row.toString();
 			p_writer.write(toWrite);

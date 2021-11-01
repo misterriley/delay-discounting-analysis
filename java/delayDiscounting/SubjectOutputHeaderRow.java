@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package delayDiscounting;
 
@@ -10,7 +10,7 @@ import types.SubjectInfoType;
 
 /**
  * @author Ringo
- * 
+ *
  */
 public class SubjectOutputHeaderRow extends SubjectOutputRow
 {
@@ -21,11 +21,10 @@ public class SubjectOutputHeaderRow extends SubjectOutputRow
 	}
 
 	@Override
-	public String getOutputString(final AnalysisType p_analysisType,
-		final KAnalysisValueType p_analysisValueType)
+	public String getOutputString(final AnalysisType p_analysisType, final KAnalysisValueType p_analysisValueType)
 	{
 		String intro = null;
-		switch(p_analysisValueType)
+		switch (p_analysisValueType)
 		{
 			case K:
 				intro = "K";
@@ -40,8 +39,7 @@ public class SubjectOutputHeaderRow extends SubjectOutputRow
 				intro = "Sens Std Err";
 				break;
 			default:
-				throw new IllegalArgumentException("Unexpected type: "
-					+ p_analysisValueType);
+				throw new IllegalArgumentException("Unexpected type: " + p_analysisValueType);
 		}
 
 		return intro + " (" + p_analysisType + ")";
@@ -50,7 +48,7 @@ public class SubjectOutputHeaderRow extends SubjectOutputRow
 	@Override
 	public String getOutputString(final EasyHardDataType p_type)
 	{
-		switch(p_type)
+		switch (p_type)
 		{
 			case EASY_RT_MEAN:
 				return "Easy RT Mean";
@@ -68,7 +66,7 @@ public class SubjectOutputHeaderRow extends SubjectOutputRow
 	@Override
 	public String getOutputString(final SubjectInfoType p_type)
 	{
-		switch(p_type)
+		switch (p_type)
 		{
 			case AGE:
 				return "Age";

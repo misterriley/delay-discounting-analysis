@@ -1,11 +1,11 @@
 /**
- * 
+ *
  */
 package delayDiscounting;
 
 /**
  * @author Ringo
- * 
+ *
  */
 public class StimulusData
 {
@@ -16,9 +16,13 @@ public class StimulusData
 	private int		m_choice2Delay;
 	private double	m_k;
 
-	public StimulusData(final String p_ID, final double p_choice1,
-		final int p_choice1Delay, final double p_choice2,
-		final int p_choice2Delay, final double p_k)
+	public StimulusData(
+		final String p_ID,
+		final double p_choice1,
+		final int p_choice1Delay,
+		final double p_choice2,
+		final int p_choice2Delay,
+		final double p_k)
 	{
 		setID(p_ID);
 		setChoice1(p_choice1);

@@ -1,21 +1,28 @@
 /**
- * 
+ *
  */
 package types;
 
 /**
  * @author Ringo
- * 
+ *
  */
 public enum AnalysisType
 {
-	ALL_ALL, ROUND_ALL, MESSY_ALL, ALL_IMMEDIATE, ALL_DELAYED, ROUND_IMMEDIATE,
-	ROUND_DELAYED, MESSY_IMMEDIATE, MESSY_DELAYED;
+	ALL_ALL,
+	ROUND_ALL,
+	MESSY_ALL,
+	ALL_IMMEDIATE,
+	ALL_DELAYED,
+	ROUND_IMMEDIATE,
+	ROUND_DELAYED,
+	MESSY_IMMEDIATE,
+	MESSY_DELAYED;
 
 	@Override
 	public String toString()
 	{
-		switch(this)
+		switch (this)
 		{
 			case ALL_ALL:
 				return "All";

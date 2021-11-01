@@ -1,22 +1,21 @@
 /**
- * 
+ *
  */
 package delayDiscounting;
 
 /**
  * @author Ringo
- * 
+ *
  */
-public class SubjectData
-	implements Comparable<SubjectData>
+public class SubjectData implements Comparable<SubjectData>
 {
-	private final Integer			m_subjectID;
+	private final Integer m_subjectID;
 
 	private final SubjectYearData	m_year1Data;
 	private final SubjectYearData	m_year2Data;
 
-	private String					m_sex;
-	private String					m_adhdTdGroup;
+	private String	m_sex;
+	private String	m_adhdTdGroup;
 
 	public SubjectData(final Integer p_subjectID)
 	{
@@ -25,8 +24,7 @@ public class SubjectData
 		m_year2Data = new SubjectYearData(this, 2);
 	}
 
-	public SubjectData(final Integer p_subjectID, final String p_sex,
-		final String p_adhdTdGroup)
+	public SubjectData(final Integer p_subjectID, final String p_sex, final String p_adhdTdGroup)
 	{
 		this(p_subjectID);
 		m_sex = p_sex;
@@ -35,13 +33,13 @@ public class SubjectData
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Comparable#compareTo(java.lang.Object)
 	 */
 	@Override
 	public int compareTo(final SubjectData p_that)
 	{
-		return this.m_subjectID - p_that.getSubjectID();
+		return m_subjectID - p_that.getSubjectID();
 	}
 
 	public String getAdhdTdGroup()
@@ -71,7 +69,7 @@ public class SubjectData
 
 	public SubjectYearData getYearData(final int p_year)
 	{
-		switch(p_year)
+		switch (p_year)
 		{
 			case 1:
 				return getYear1Data();

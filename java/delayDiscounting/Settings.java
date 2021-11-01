@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package delayDiscounting;
 
@@ -13,26 +13,26 @@ import javax.swing.JOptionPane;
 
 /**
  * @author Ringo
- * 
+ *
  */
 public class Settings
 {
-	private static String			PROPERTIES_FILE_NAME					= "DDSettings.txt";
+	private static String PROPERTIES_FILE_NAME = "DDSettings.txt";
 
-	private static final String		TAG_K_STEP_SIZE							= "KStepSize";
-	private static final String		TAG_SENSITIVITY_STEP_SIZE				= "SensitivityStepSize";
-	private static final String		TAG_SENSITIVITY_MIN						= "SensitivityMin";
-	private static final String		TAG_SENSITIVITY_MAX						= "SensitivityMax";
-	private static final String		TAG_LOGIT_LIN_NUM_SECTIONS				= "LogitLinearizationNumSections";
-	private static final String		TAG_WRITE_ALL_VECTOR_FILES				= "WriteAllVectorFiles";
-	private static final String		TAG_WRITE_EASY_HARD_VECTOR_FILES		= "WriteEasyHardVectorFiles";
-	private static final String		TAG_WRITE_OUTPUT_FILE					= "WriteOutputFile";
-	private static final String		TAG_K_SANITY_CHECK_TOLERANCE			= "KSanityCheckTolerance";
-	private static final String		TAG_RT_MINIMUM_MS						= "RTMinimum";
-	private static final String		TAG_NUM_BOOTSTRAP_REPETITIONS			= "NumBootstrapRepetitions";
-	private static final String		TAG_NUM_EASY_HARD_RESPONSES				= "NumEasyHardResponses";
-	private static final String		TAG_USE_SANN_SEARCH						= "UseSannSearch";
-	private static final String		TAG_RUN_K_ANALYSIS						= "RunKAnalysis";
+	private static final String	TAG_K_STEP_SIZE						= "KStepSize";
+	private static final String	TAG_SENSITIVITY_STEP_SIZE			= "SensitivityStepSize";
+	private static final String	TAG_SENSITIVITY_MIN					= "SensitivityMin";
+	private static final String	TAG_SENSITIVITY_MAX					= "SensitivityMax";
+	private static final String	TAG_LOGIT_LIN_NUM_SECTIONS			= "LogitLinearizationNumSections";
+	private static final String	TAG_WRITE_ALL_VECTOR_FILES			= "WriteAllVectorFiles";
+	private static final String	TAG_WRITE_EASY_HARD_VECTOR_FILES	= "WriteEasyHardVectorFiles";
+	private static final String	TAG_WRITE_OUTPUT_FILE				= "WriteOutputFile";
+	private static final String	TAG_K_SANITY_CHECK_TOLERANCE		= "KSanityCheckTolerance";
+	private static final String	TAG_RT_MINIMUM_MS					= "RTMinimum";
+	private static final String	TAG_NUM_BOOTSTRAP_REPETITIONS		= "NumBootstrapRepetitions";
+	private static final String	TAG_NUM_EASY_HARD_RESPONSES			= "NumEasyHardResponses";
+	private static final String	TAG_USE_SANN_SEARCH					= "UseSannSearch";
+	private static final String	TAG_RUN_K_ANALYSIS					= "RunKAnalysis";
 
 	private static final double		DEFAULT_K_STEP_SIZE						= .0005;
 	private static final double		DEFAULT_SENSITIVITY_STEP_SIZE			= .01;
@@ -49,80 +49,16 @@ public class Settings
 	private static final boolean	DEFAULT_USE_SANN_SEARCH					= false;
 	private static final boolean	DEFAULT_RUN_K_ANALYSIS					= false;
 
-	private static Properties		m_properties;
+	private static Properties m_properties;
 
 	static
 	{
 		tryToLoadPropertiesFromFile();
 	}
 
-	/**
-	 * @return
-	 */
-	private static Properties buildDefaultProperties()
-	{
-		final Properties ret = new Properties();
-		ret.setProperty(TAG_RT_MINIMUM_MS,
-			String.valueOf(DEFAULT_RT_MINIMUM_MS));
-		ret.setProperty(TAG_NUM_EASY_HARD_RESPONSES,
-			String.valueOf(DEFAULT_NUM_EASY_HARD_RESPONSES));
-		ret.setProperty(TAG_K_STEP_SIZE, String.valueOf(DEFAULT_K_STEP_SIZE));
-		ret.setProperty(TAG_SENSITIVITY_STEP_SIZE,
-			String.valueOf(DEFAULT_SENSITIVITY_STEP_SIZE));
-		ret.setProperty(TAG_SENSITIVITY_MIN,
-			String.valueOf(DEFAULT_SENSITIVITY_MIN));
-		ret.setProperty(TAG_SENSITIVITY_MAX,
-			String.valueOf(DEFAULT_SENSITIVITY_MAX));
-		ret.setProperty(TAG_LOGIT_LIN_NUM_SECTIONS,
-			String.valueOf(DEFAULT_LOGIT_LIN_NUM_SECTIONS));
-		ret.setProperty(TAG_WRITE_ALL_VECTOR_FILES,
-			String.valueOf(DEFAULT_WRITE_ALL_VECTOR_FILES));
-		ret.setProperty(TAG_WRITE_EASY_HARD_VECTOR_FILES,
-			String.valueOf(DEFAULT_WRITE_EASY_HARD_VECTOR_FILES));
-		ret.setProperty(TAG_WRITE_OUTPUT_FILE,
-			String.valueOf(DEFAULT_WRITE_OUTPUT_FILE));
-		ret.setProperty(TAG_K_SANITY_CHECK_TOLERANCE,
-			String.valueOf(DEFAULT_K_SANITY_CHECK_TOLERANCE));
-		ret.setProperty(TAG_NUM_BOOTSTRAP_REPETITIONS,
-			String.valueOf(DEFAULT_NUM_BOOTSTRAP_REPETITIONS));
-		ret.setProperty(TAG_RUN_K_ANALYSIS,
-			String.valueOf(DEFAULT_RUN_K_ANALYSIS));
-		return ret;
-	}
-
-	private static boolean getAsBoolean(final String p_key,
-		final boolean p_default)
-	{
-		return Boolean.parseBoolean(getAsString(p_key,
-			String.valueOf(p_default)));
-	}
-
-	private static double getAsDouble(final String p_key, final double p_default)
-	{
-		return Double.parseDouble(getAsString(p_key, String.valueOf(p_default)));
-	}
-
-	private static int getAsInt(final String p_key, final int p_default)
-	{
-		return Integer.parseInt(getAsString(p_key, String.valueOf(p_default)));
-	}
-
-	private static String getAsString(final String p_key, final String p_default)
-	{
-		String value = m_properties.getProperty(p_key);
-		if(value == null)
-		{
-			m_properties.setProperty(p_key, p_default);
-			writeProperties(m_properties);
-			value = p_default;
-		}
-		return value;
-	}
-
 	public static double getKSanityCheckTolerance()
 	{
-		return getAsDouble(TAG_K_SANITY_CHECK_TOLERANCE,
-			DEFAULT_K_SANITY_CHECK_TOLERANCE);
+		return getAsDouble(TAG_K_SANITY_CHECK_TOLERANCE, DEFAULT_K_SANITY_CHECK_TOLERANCE);
 	}
 
 	public static double getKStepSize()
@@ -132,8 +68,7 @@ public class Settings
 
 	public static int getLogitLinNumSections()
 	{
-		return getAsInt(TAG_LOGIT_LIN_NUM_SECTIONS,
-			DEFAULT_LOGIT_LIN_NUM_SECTIONS);
+		return getAsInt(TAG_LOGIT_LIN_NUM_SECTIONS, DEFAULT_LOGIT_LIN_NUM_SECTIONS);
 	}
 
 	/**
@@ -141,14 +76,12 @@ public class Settings
 	 */
 	public static int getNumBootstrapRepetitions()
 	{
-		return getAsInt(TAG_NUM_BOOTSTRAP_REPETITIONS,
-			DEFAULT_NUM_BOOTSTRAP_REPETITIONS);
+		return getAsInt(TAG_NUM_BOOTSTRAP_REPETITIONS, DEFAULT_NUM_BOOTSTRAP_REPETITIONS);
 	}
 
 	public static int getNumEasyHardResponses()
 	{
-		return getAsInt(TAG_NUM_EASY_HARD_RESPONSES,
-			DEFAULT_NUM_EASY_HARD_RESPONSES);
+		return getAsInt(TAG_NUM_EASY_HARD_RESPONSES, DEFAULT_NUM_EASY_HARD_RESPONSES);
 	}
 
 	/**
@@ -171,8 +104,7 @@ public class Settings
 
 	public static double getSensitivityStepSize()
 	{
-		return getAsDouble(TAG_SENSITIVITY_STEP_SIZE,
-			DEFAULT_SENSITIVITY_STEP_SIZE);
+		return getAsDouble(TAG_SENSITIVITY_STEP_SIZE, DEFAULT_SENSITIVITY_STEP_SIZE);
 	}
 
 	/**
@@ -188,6 +120,70 @@ public class Settings
 		return getAsBoolean(TAG_RUN_K_ANALYSIS, DEFAULT_RUN_K_ANALYSIS);
 	}
 
+	public static boolean writeAllVectorFiles()
+	{
+		return getAsBoolean(TAG_WRITE_ALL_VECTOR_FILES, DEFAULT_WRITE_ALL_VECTOR_FILES);
+	}
+
+	public static boolean writeEasyHardVectorFiles()
+	{
+		return getAsBoolean(TAG_WRITE_EASY_HARD_VECTOR_FILES, DEFAULT_WRITE_EASY_HARD_VECTOR_FILES);
+	}
+
+	public static boolean writeOutputFile()
+	{
+		return getAsBoolean(TAG_WRITE_OUTPUT_FILE, DEFAULT_WRITE_OUTPUT_FILE);
+	}
+
+	/**
+	 * @return
+	 */
+	private static Properties buildDefaultProperties()
+	{
+		final Properties ret = new Properties();
+		ret.setProperty(TAG_RT_MINIMUM_MS, String.valueOf(DEFAULT_RT_MINIMUM_MS));
+		ret.setProperty(TAG_NUM_EASY_HARD_RESPONSES, String.valueOf(DEFAULT_NUM_EASY_HARD_RESPONSES));
+		ret.setProperty(TAG_K_STEP_SIZE, String.valueOf(DEFAULT_K_STEP_SIZE));
+		ret.setProperty(TAG_SENSITIVITY_STEP_SIZE, String.valueOf(DEFAULT_SENSITIVITY_STEP_SIZE));
+		ret.setProperty(TAG_SENSITIVITY_MIN, String.valueOf(DEFAULT_SENSITIVITY_MIN));
+		ret.setProperty(TAG_SENSITIVITY_MAX, String.valueOf(DEFAULT_SENSITIVITY_MAX));
+		ret.setProperty(TAG_LOGIT_LIN_NUM_SECTIONS, String.valueOf(DEFAULT_LOGIT_LIN_NUM_SECTIONS));
+		ret.setProperty(TAG_WRITE_ALL_VECTOR_FILES, String.valueOf(DEFAULT_WRITE_ALL_VECTOR_FILES));
+		ret.setProperty(TAG_WRITE_EASY_HARD_VECTOR_FILES, String.valueOf(DEFAULT_WRITE_EASY_HARD_VECTOR_FILES));
+		ret.setProperty(TAG_WRITE_OUTPUT_FILE, String.valueOf(DEFAULT_WRITE_OUTPUT_FILE));
+		ret.setProperty(TAG_K_SANITY_CHECK_TOLERANCE, String.valueOf(DEFAULT_K_SANITY_CHECK_TOLERANCE));
+		ret.setProperty(TAG_NUM_BOOTSTRAP_REPETITIONS, String.valueOf(DEFAULT_NUM_BOOTSTRAP_REPETITIONS));
+		ret.setProperty(TAG_RUN_K_ANALYSIS, String.valueOf(DEFAULT_RUN_K_ANALYSIS));
+		return ret;
+	}
+
+	private static boolean getAsBoolean(final String p_key, final boolean p_default)
+	{
+		return Boolean.parseBoolean(getAsString(p_key, String.valueOf(p_default)));
+	}
+
+	private static double getAsDouble(final String p_key, final double p_default)
+	{
+		return Double.parseDouble(getAsString(p_key, String.valueOf(p_default)));
+	}
+
+	private static int getAsInt(final String p_key, final int p_default)
+	{
+		return Integer.parseInt(getAsString(p_key, String.valueOf(p_default)));
+	}
+
+	private static String getAsString(final String p_key, final String p_default)
+	{
+		String value = m_properties.getProperty(p_key);
+		if (value == null)
+		{
+			m_properties.setProperty(p_key, p_default);
+			writeProperties(m_properties);
+			value = p_default;
+		}
+		return value;
+	}
+
 	private static void tryToLoadPropertiesFromFile()
 	{
 		m_properties = new Properties();
@@ -195,7 +191,7 @@ public class Settings
 		try
 		{
 			final File propertiesFile = new File(PROPERTIES_FILE_NAME);
-			if(!propertiesFile.exists())
+			if (!propertiesFile.exists())
 			{
 				throw new IOException();
 			}
@@ -203,10 +199,9 @@ public class Settings
 			reader = new FileReader(PROPERTIES_FILE_NAME);
 			m_properties.load(reader);
 		}
-		catch(final IOException ex)
+		catch (final IOException ex)
 		{
-			JOptionPane.showMessageDialog(null,
-				"Unable to find properties file - loading default properties");
+			JOptionPane.showMessageDialog(null, "Unable to find properties file - loading default properties");
 			m_properties = buildDefaultProperties();
 			writeProperties(m_properties);
 		}
@@ -221,23 +216,6 @@ public class Settings
 		System.out.println();
 	}
 
-	public static boolean writeAllVectorFiles()
-	{
-		return getAsBoolean(TAG_WRITE_ALL_VECTOR_FILES,
-			DEFAULT_WRITE_ALL_VECTOR_FILES);
-	}
-
-	public static boolean writeEasyHardVectorFiles()
-	{
-		return getAsBoolean(TAG_WRITE_EASY_HARD_VECTOR_FILES,
-			DEFAULT_WRITE_EASY_HARD_VECTOR_FILES);
-	}
-
-	public static boolean writeOutputFile()
-	{
-		return getAsBoolean(TAG_WRITE_OUTPUT_FILE, DEFAULT_WRITE_OUTPUT_FILE);
-	}
-
 	private static void writeProperties(final Properties p_properties)
 	{
 		FileWriter writer = null;
@@ -246,10 +224,9 @@ public class Settings
 			writer = new FileWriter(new File(PROPERTIES_FILE_NAME));
 			p_properties.store(writer, "Settings file for DDAnalyzer.jar");
 		}
-		catch(final IOException ex)
+		catch (final IOException ex)
 		{
-			JOptionPane.showMessageDialog(null,
-				"Unable to write properties file: " + ex.getMessage());
+			JOptionPane.showMessageDialog(null, "Unable to write properties file: " + ex.getMessage());
 		}
 		finally
 		{

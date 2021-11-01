@@ -1,11 +1,11 @@
 /**
- * 
+ *
  */
 package types;
 
 /**
  * @author Ringo
- * 
+ *
  */
 public enum ResponseType
 {
@@ -13,7 +13,7 @@ public enum ResponseType
 
 	public static int convertToInteger(final ResponseType p_type)
 	{
-		switch(p_type)
+		switch (p_type)
 		{
 			case LATER:
 				return 2;
@@ -23,7 +23,6 @@ public enum ResponseType
 				return 1;
 		}
 
-		throw new IllegalArgumentException("Unexpected response type: "
-			+ p_type);
+		throw new IllegalArgumentException("Unexpected response type: " + p_type);
 	}
 }

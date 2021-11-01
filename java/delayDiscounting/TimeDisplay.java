@@ -1,11 +1,11 @@
 /**
- * 
+ *
  */
 package delayDiscounting;
 
 /**
  * @author Ringo
- * 
+ *
  */
 public class TimeDisplay
 {
@@ -26,27 +26,27 @@ public class TimeDisplay
 		String ret = "";
 
 		int itemsDisplayed = 0;
-		if(numDays > 0)
+		if (numDays > 0)
 		{
-			ret += (numDays + " day" + (numDays != 1 ? "s " : " "));
+			ret += numDays + " day" + (numDays != 1 ? "s " : " ");
 			itemsDisplayed++;
 		}
 
-		if(itemsDisplayed == 1 || numHours > 0)
+		if (itemsDisplayed == 1 || numHours > 0)
 		{
-			ret += (numHours + " hour" + (numHours != 1 ? "s " : " "));
+			ret += numHours + " hour" + (numHours != 1 ? "s " : " ");
 			itemsDisplayed++;
 		}
 
-		if(itemsDisplayed == 1 || (numMinutes > 0 && itemsDisplayed == 0))
+		if (itemsDisplayed == 1 || numMinutes > 0 && itemsDisplayed == 0)
 		{
-			ret += (numMinutes + " minute" + (numMinutes != 1 ? "s " : " "));
+			ret += numMinutes + " minute" + (numMinutes != 1 ? "s " : " ");
 			itemsDisplayed++;
 		}
 
-		if(itemsDisplayed == 1 || itemsDisplayed == 0)
+		if (itemsDisplayed == 1 || itemsDisplayed == 0)
 		{
-			ret += (numSeconds + " second" + (numSeconds != 1 ? "s " : " "));
+			ret += numSeconds + " second" + (numSeconds != 1 ? "s " : " ");
 			itemsDisplayed++;
 		}
 

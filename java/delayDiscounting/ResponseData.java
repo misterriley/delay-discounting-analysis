@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package delayDiscounting;
 
@@ -8,37 +8,44 @@ import types.ResponseType;
 
 /**
  * @author Ringo
- * 
+ *
  */
 public class ResponseData
 {
-	private static final double	K_CALC_TOLERANCE	= Settings.getKSanityCheckTolerance();
+	private static final double K_CALC_TOLERANCE = Settings.getKSanityCheckTolerance();
 
-	private ResponseType		m_responseType;
-	private double				m_choice1;
-	private int					m_choice1Delay;
-	private double				m_choice2;
-	private int					m_choice2Delay;
-	private boolean				m_isAttentionCheck;
-	private boolean				m_isMessyTrial;
-	private int					m_timeIndex;
-	private double				m_likelihood;
-	private double				m_k;
-	private SubjectYearData		m_subjectYearData;
-	private double				m_rt;
+	private ResponseType	m_responseType;
+	private double			m_choice1;
+	private int				m_choice1Delay;
+	private double			m_choice2;
+	private int				m_choice2Delay;
+	private boolean			m_isAttentionCheck;
+	private boolean			m_isMessyTrial;
+	private int				m_timeIndex;
+	private double			m_likelihood;
+	private double			m_k;
+	private SubjectYearData	m_subjectYearData;
+	private double			m_rt;
 
 	public ResponseData()
 	{
-	// exists so that ResponseOutputHeader can extend without
-	// needing a bunch of inputs
+		// exists so that ResponseOutputHeader can extend without
+		// needing a bunch of inputs
 	}
 
-	public ResponseData(final SubjectYearData p_subjectYearData,
-		final double p_choice1, final int p_choice1Delay,
-		final double p_choice2, final int p_choice2Delay,
-		final ResponseType p_responseType, final boolean p_isAttentionCheck,
-		final boolean p_isMessyTrial, final int p_timeIndex, final double p_k,
-		final boolean p_checkForKValue, final double p_rt)
+	public ResponseData(
+		final SubjectYearData p_subjectYearData,
+		final double p_choice1,
+		final int p_choice1Delay,
+		final double p_choice2,
+		final int p_choice2Delay,
+		final ResponseType p_responseType,
+		final boolean p_isAttentionCheck,
+		final boolean p_isMessyTrial,
+		final int p_timeIndex,
+		final double p_k,
+		final boolean p_checkForKValue,
+		final double p_rt)
 	{
 		setSubjectYearData(p_subjectYearData);
 		setChoice1(p_choice1);
@@ -52,10 +59,9 @@ public class ResponseData
 		setK(p_k);
 		setRT(p_rt);
 		final double testK = Functions.calculateBreakEvenKValue(this);
-		if(p_checkForKValue && Math.abs(testK - m_k) > K_CALC_TOLERANCE)
+		if (p_checkForKValue && Math.abs(testK - m_k) > K_CALC_TOLERANCE)
 		{
-			throw new RuntimeException("K Value is wrong : " + testK + " vs. "
-				+ m_k);
+			throw new RuntimeException("K Value is wrong : " + testK + " vs. " + m_k);
 		}
 	}
 
@@ -81,7 +87,7 @@ public class ResponseData
 
 	public String getData(final ResponseOutputDataType p_type)
 	{
-		switch(p_type)
+		switch (p_type)
 		{
 			case ADHD_TD_GROUP:
 				return getSubjectYearData().getSubjectData().getAdhdTdGroup();

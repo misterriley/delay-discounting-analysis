@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package delayDiscounting;
 
@@ -7,10 +7,9 @@ import java.util.Comparator;
 
 /**
  * @author Ringo
- * 
+ *
  */
-public class DifficultyComparator
-	implements Comparator<ResponseData>
+public class DifficultyComparator implements Comparator<ResponseData>
 {
 	private final double	m_k;
 	private final double	m_sensitivity;
@@ -25,13 +24,13 @@ public class DifficultyComparator
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
 	 */
 	@Override
 	public int compare(final ResponseData p_r1, final ResponseData p_r2)
 	{
-		if(m_sensitivity == 1)
+		if (m_sensitivity == 1)
 		{
 			// for separable data sets
 			final double diff1 = Functions.hypValDifference(p_r1, m_k);
@@ -44,14 +43,14 @@ public class DifficultyComparator
 		}
 
 		double likelihood1 = p_r1.getLikelihood();
-		if(likelihood1 == 0)
+		if (likelihood1 == 0)
 		{
 			likelihood1 = Math.exp(Functions.lnProbOfResponse(m_a, m_k, p_r1));
 			p_r1.setLikelihood(likelihood1);
 		}
 
 		double likelihood2 = p_r2.getLikelihood();
-		if(likelihood2 == 0)
+		if (likelihood2 == 0)
 		{
 			likelihood2 = Math.exp(Functions.lnProbOfResponse(m_a, m_k, p_r2));
 			p_r2.setLikelihood(likelihood2);

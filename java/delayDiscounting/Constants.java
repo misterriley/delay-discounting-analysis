@@ -1,11 +1,11 @@
 /**
- * 
+ *
  */
 package delayDiscounting;
 
 /**
  * @author Ringo
- * 
+ *
  */
 public class Constants
 {

@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package delayDiscounting;
 
@@ -7,14 +7,14 @@ import types.ResponseOutputDataType;
 
 /**
  * @author Ringo
- * 
+ *
  */
 public class ResponseOutputHeaderRow extends ResponseData
 {
 	@Override
 	public String getData(final ResponseOutputDataType p_type)
 	{
-		switch(p_type)
+		switch (p_type)
 		{
 			case ADHD_TD_GROUP:
 				return "ADHD/TD Group";

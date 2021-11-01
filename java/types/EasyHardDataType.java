@@ -1,11 +1,11 @@
 /**
- * 
+ *
  */
 package types;
 
 /**
  * @author Ringo
- * 
+ *
  */
 public enum EasyHardDataType
 {

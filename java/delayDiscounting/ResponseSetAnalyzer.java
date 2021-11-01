@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package delayDiscounting;
 
@@ -10,14 +10,14 @@ import bootstrap.DataAnalyzer;
 
 /**
  * @author Ringo
- * 
+ *
  */
 public class ResponseSetAnalyzer extends DataAnalyzer<ResponseData>
 {
-	public static final String		K			= "K";
-	public static final String		SENSITIVITY	= "Sensitivity";
+	public static final String	K			= "K";
+	public static final String	SENSITIVITY	= "Sensitivity";
 
-	private static final String[]	VAR_NAMES	= {K, SENSITIVITY};
+	private static final String[] VAR_NAMES = {K, SENSITIVITY};
 
 	public static double getK(final BootstrapResult p_result)
 	{
@@ -45,8 +45,7 @@ public class ResponseSetAnalyzer extends DataAnalyzer<ResponseData>
 	@Override
 	public double[] analyzeData(final Collection<ResponseData> p_dataSet)
 	{
-		return Functions.getMaximumLikelihoodConstants(p_dataSet, m_minKValue,
-			m_maxKValue);
+		return Functions.getMaximumLikelihoodConstants(p_dataSet, m_minKValue, m_maxKValue);
 	}
 
 	public double getMaxKValue()

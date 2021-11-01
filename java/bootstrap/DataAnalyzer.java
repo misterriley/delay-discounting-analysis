@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package bootstrap;
 
@@ -7,7 +7,7 @@ import java.util.Collection;
 
 /**
  * @author Ringo
- * 
+ *
  */
 public abstract class DataAnalyzer<T>
 {

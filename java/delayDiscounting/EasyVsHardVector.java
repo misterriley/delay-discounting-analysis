@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package delayDiscounting;
 
@@ -7,31 +7,20 @@ import java.util.Arrays;
 
 /**
  * @author Ringo
- * 
+ *
  */
 public class EasyVsHardVector
 {
-	private final SubjectData	m_subjectData;
+	private final SubjectData m_subjectData;
 
 	public EasyVsHardVector(final SubjectData p_subjectData)
 	{
-		if(!p_subjectData.getYear1Data().isTypeA())
+		if (!p_subjectData.getYear1Data().isTypeA())
 		{
 			throw new RuntimeException("Only type A subjects allowed");
 		}
 
 		m_subjectData = p_subjectData;
-	}
-
-	private int[] getSortedTimeIndices(final ResponseData[] p_responses)
-	{
-		final int[] ret = new int[p_responses.length];
-		for(int i = 0; i < p_responses.length; i++)
-		{
-			ret[i] = p_responses[i].getTimeIndex();
-		}
-		Arrays.sort(ret);
-		return ret;
 	}
 
 	public void writeVectorFiles()
@@ -50,5 +39,16 @@ public class EasyVsHardVector
 		DataWriting.writeHardVector(hardVector, m_subjectData);
 		DataWriting.writeMidVector(midVector, m_subjectData);
 		DataWriting.writeInvalidVector(invalidVector, m_subjectData);
+	}
+
+	private int[] getSortedTimeIndices(final ResponseData[] p_responses)
+	{
+		final int[] ret = new int[p_responses.length];
+		for (int i = 0; i < p_responses.length; i++)
+		{
+			ret[i] = p_responses[i].getTimeIndex();
+		}
+		Arrays.sort(ret);
+		return ret;
 	}
 }
